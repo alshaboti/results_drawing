@@ -7,7 +7,7 @@ from Results import OutputResult
 
 
 #task_len$BrutForce$SA_score$h_score$ga_score
-path = './results.csv'
+path = './results/results.csv'
 data = pd.read_csv(path,sep='$')
 
 
@@ -50,7 +50,7 @@ def score_figures():
         fig.suptitle('User preference search algorithms', fontsize=12)
 
         #plt.show()
-        plt.savefig("./search_score.png")  
+        plt.savefig("./results/search_score.png")  
         plt.close()
 
 # make it one function
@@ -88,14 +88,14 @@ def time_figures():
         fig.suptitle('Elapsed time for searching algorithms', fontsize=12)
 
         #plt.show()
-        plt.savefig("./search_time.png")  
+        plt.savefig("./results/search_time.png")  
         plt.close()
 
 if __name__ == "__main__":
         score_figures()
         time_figures()
   
-        res = OutputResult('./results.csv')
+        res = OutputResult(path)
         exp_iterations = [i*30 for i in range(6)]
 
         for i in exp_iterations:

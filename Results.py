@@ -109,9 +109,9 @@ class OutputResult:
         plt.savefig(self.path +'/' +y_label+x_label+str(task_len)+".png")   
         plt.close()
 
-res = OutputResult('./results.csv')
+# res = OutputResult('./results.csv')
 
-exp_iterations = [i*30 for i in range(6)]
+# exp_iterations = [i*30 for i in range(6)]
 
-for i in exp_iterations:
-    res.create_figures(i, i*30-1)
+# for i in exp_iterations:
+#     res.create_figures(i, i*30-1)
