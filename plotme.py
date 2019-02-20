@@ -18,7 +18,7 @@ tasks_len = data_all.groups.keys()
 
 def score_figures():
         algorithms_list = ['HC_score','SA_score','GA_score']
-        fig, axes = plt.subplots(nrows=1,ncols=6, figsize=(27,5))
+        fig, axes = plt.subplots(nrows=1,ncols=6, figsize=(35,8))
         plt.subplots_adjust(left= 0.1, bottom=0.1, right=0.9, top=0.8, wspace=0.5, hspace=0.2)
 
         # fro each task_len get all scores
@@ -35,7 +35,7 @@ def score_figures():
 
                 # draw optimal score    
                 up_score = data_all['UP_score'].apply(list)[task_length][0]
-                axes[plt_idx].axhline(y=up_score, color='r', linestyle='-.', linewidth=0.2)
+                axes[plt_idx].axhline(y=up_score, color='r', linestyle='-.', linewidth=0.5)
                 
                 # ygrid and xlable
                 axes[plt_idx].yaxis.grid(True)    
@@ -56,7 +56,7 @@ def score_figures():
 # make it one function
 def time_figures():
         algorithms_list = ['HC_time','SA_time','GA_time']
-        fig, axes = plt.subplots(nrows=1,ncols=6, figsize=(27,5))
+        fig, axes = plt.subplots(nrows=1,ncols=6, figsize=(35,8))
         plt.subplots_adjust(left= 0.1, bottom=0.1, right=0.9, top=0.8, wspace=0.5, hspace=0.2)
 
         # fro each task_len get all scores
@@ -73,7 +73,7 @@ def time_figures():
 
                 # draw optimal score    
                 up_score = data_all['BF_time'].apply(list)[task_length][0]
-                axes[plt_idx].axhline(y=up_score, color='r', linestyle='-.', linewidth=0.2)
+                axes[plt_idx].axhline(y=up_score, color='g', linewidth=0.9)
                 
                 # ygrid and xlable
                 axes[plt_idx].yaxis.grid(True)    

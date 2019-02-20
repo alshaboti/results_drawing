@@ -34,7 +34,7 @@ class OutputResult:
                     with open(self.file_name,'w+') as f:
                         f.write(header_row+"\n") 
                 except IOError as e:
-                    print("Can't create ", self.file_name)              
+                    print("Can't create ", self.file_name, e)              
             
         # Define a function to create a boxplot:
     def write_results(self, new_row):
@@ -42,7 +42,7 @@ class OutputResult:
             with open(self.file_name,'a+') as f:
                 f.write(new_row+"\n") 
         except IOError as e:
-            print("Can't open ", self.file_name)
+            print("Can't open ", self.file_name, e)
     
     def _boxplot(self, x_data, y_data, base_color, median_color, x_label, y_label, title):
         _, ax = plt.subplots()
@@ -65,13 +65,14 @@ class OutputResult:
         ax.set_xticklabels(x_data)
         ax.set_ylabel(y_label)
         ax.set_xlabel(x_label)
-        ax.set_title(title)   
+        ax.set_title(title)
+        return ax   
        
     def create_figures(self, from_row, to_row):
         data = pd.read_csv(self.file_name, self.sep)
 
-        score_headers = ["SA_score" , "HC_score" , "GA_score"]
-        x_headers = ["SA", "HC", "GA"]
+        score_headers = [ "HC_score" ,"SA_score" , "GA_score", "BF_score"]
+        x_headers = ["HC","SA",  "GA"]
         task_len =  data['task_len'][from_row]
         # score figure        
         score_data = [data[x][from_row:to_row].values for x in score_headers]
@@ -80,23 +81,29 @@ class OutputResult:
                     data['dev_alter'][from_row])
         y_label = 'User preference probability'
         
-        self._boxplot(x_data = score_headers
+        ax = self._boxplot(x_data = score_headers
                 , y_data = score_data
                 , base_color = '#539caf'
                 , median_color = '#297083'
                 , x_label = x_label
                 , y_label = y_label
                 , title = 'User preference score')
+
+        # plot optimal score line
+        up_score = data['BF_score'][from_row]
+        ax.axhline(y=up_score, color='g', linewidth=0.9)        
         # save figure
         plt.savefig(self.path +'/' +y_label+x_label+str(task_len)+".png")        
+        plt.close()
 
         # time figure
-        time_headers = ["BF_time" , "SA_time" , "HC_time", "GA_time"  ]
+        time_headers = [ "HC_time", "SA_time" ,"GA_time", "BF_time"  ]
         time_data = [data[x][from_row:to_row].values for x in time_headers]
         x_label = 'Search algorithm (no functions per task = {0}, no alterernative devices ={1} )'.format( \
                     data['task_len'][from_row], \
                     data['dev_alter'][from_row])
         y_label = 'Time in seconds'        
+
         # # Call the function to create plot
         self._boxplot(x_data = x_headers
                 , y_data = time_data
@@ -105,6 +112,8 @@ class OutputResult:
                 , x_label = x_label
                 , y_label = y_label
                 , title = 'Searching time')
+
+
         # # save figure
         plt.savefig(self.path +'/' +y_label+x_label+str(task_len)+".png")   
         plt.close()
