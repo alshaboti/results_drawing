@@ -3,7 +3,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from Results import OutputResult
 
 
 #task_len$BrutForce$SA_score$h_score$ga_score
@@ -18,7 +17,7 @@ tasks_len = data_all.groups.keys()
 
 def score_figures():
         algorithms_list = ['HC_score','SA_score','GA_score']
-        fig, axes = plt.subplots(nrows=1,ncols=6, figsize=(35,8))
+        fig, axes = plt.subplots(nrows=1,ncols=4, figsize=(24,8))
         plt.subplots_adjust(left= 0.1, bottom=0.1, right=0.9, top=0.8, wspace=0.5, hspace=0.2)
 
         # fro each task_len get all scores
@@ -56,7 +55,7 @@ def score_figures():
 # make it one function
 def time_figures():
         algorithms_list = ['HC_time','SA_time','GA_time']
-        fig, axes = plt.subplots(nrows=1,ncols=6, figsize=(35,8))
+        fig, axes = plt.subplots(nrows=1,ncols=4, figsize=(24,8))
         plt.subplots_adjust(left= 0.1, bottom=0.1, right=0.9, top=0.8, wspace=0.5, hspace=0.2)
 
         # fro each task_len get all scores
@@ -78,6 +77,8 @@ def time_figures():
                 # ygrid and xlable
                 axes[plt_idx].yaxis.grid(True)    
                 axes[plt_idx].set_xlabel('Task len='+str(task_length))    
+                # set y logarithmic scale
+                axes[plt_idx].set_yscale('log')
         
         # Ylabel for the first subplot
         axes[0].set_ylabel('Elapsed time')
@@ -88,15 +89,10 @@ def time_figures():
         fig.suptitle('Elapsed time for searching algorithms', fontsize=12)
 
         #plt.show()
-        plt.savefig("./results/search_time.png")  
+        plt.savefig("./results/search_time1.png")  
         plt.close()
 
 if __name__ == "__main__":
         score_figures()
         time_figures()
   
-        res = OutputResult(path)
-        exp_iterations = [i*30 for i in range(6)]
-
-        for i in exp_iterations:
-                res.create_figures(i, i*30-1)
